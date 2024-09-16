@@ -108,7 +108,7 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-6 mb-5 mb-lg-0">
-          <form class="contact-form" data-aos="fade-up" data-aos-delay="200">
+          <form class="contact-form">
             <div class="row">
               <div class="col-6">
                 <div class="form-group">
@@ -118,8 +118,8 @@
               </div>
               <div class="col-6">
                 <div class="form-group">
-                  <label class="text-black" for="lname">Contact Number</label>
-                  <input type="text" class="form-control" id="lname" >
+                  <label class="text-black" for="contact">Contact Number</label>
+                  <input type="text" class="form-control" id="contact" >
                 </div>
               </div>
             </div>
@@ -153,7 +153,7 @@
               <textarea name="" class="form-control" id="message" cols="30" rows="5"></textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary" onclick="sendData()">Send Message</button>
+            <button type="button" class="btn btn-primary" onclick="Send()">Send Message</button>
           </form>
         </div>
         <div class="col-lg-5 ml-auto">
@@ -304,43 +304,53 @@
 
   <script src="js/typed.js"></script>
   
+  <script src="https://smtpjs.com/v3/smtp.js"></script>
   <script src="js/custom.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script>
 
-     function sendData(){
-      
-      document.querySelector('form').addEventListener('submit',function(event){
-        event.preventDefault();
-      })
+    function Send(){
 
       let name = document.getElementById('fname').value
-      let num = document.getElementById('lname').value
+      let contact = document.getElementById('contact').value
       let email = document.getElementById('email').value
       let dt=document.getElementById('date').value
       let stay = document.getElementById('stay').value
       let budget = document.getElementById('budget').value
       let message = document.getElementById('message').value
-      console.log(name)
-      console.log(num)
-      console.log(email)
-      console.log(dt)
-      console.log(stay)
-      console.log(budget)
-      console.log(message)
-      swal("Thank You ", "Data Submitted!", "success");
+      let subject="Travel Province Customer Query"
+
+      var body = "Name: " + name + "<br/> Contact: " + contact + "<br/> Email: " + email + "<br/> Date: " + dt + "<br/> Duration of Stay: " + stay + "<br/> Budget Range: " + budget + "<br/> Message: " + message ;
+     console.log(body);
+     console.log("function call");
+
+     Email.send({
+      SecureToken : "78dcaa92-5947-41e1-b3a7-5671525d620f",
+      To : 'h2492568@gmail.com',
+      From : 'h2492586@province.work.gd',
+         Subject : subject,
+         Body : body
+         }).then(
+         message =>{
+             if(message=='OK'){
+                 swal("Successfull", "You data successfull received ", "success");
+                
+             }
+             else{
+                 swal("Error,Meesage not sent",message);
+             } 
+         }
+     );
+
       document.getElementById('fname').value=""
-      document.getElementById('lname').value=""
+      document.getElementById('contact').value=""
       document.getElementById('email').value=""
       document.getElementById('date').value=""
       document.getElementById('stay').value=""
       document.getElementById('budget').value=""
       document.getElementById('message').value=""
-  
-
-
-     }
-
+ }
+ 
      
 
   </script>
